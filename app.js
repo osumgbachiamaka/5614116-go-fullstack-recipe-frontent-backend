@@ -4,33 +4,25 @@ const mongoose = require('mongoose');
 const Recipe = require('./models/recipe')
 
 const app = express();
-//password: tryingatlas
-//username: pearl
 
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://pearl:tryingatlas@cluster0-7b9rt.mongodb.net/test?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
-
-// mongoose.connect(uri, { useNewUrlParser: true })
-// .then(() => {
-//     console.log('Successfully connected')
-// })
-// .catch((err) => {
-//     console.log(`Couldn't connect ${err}`)
-// })
 mongoose.set('useCreateIndex', true);
-mongoose.connect("mongodb://localhost/recipe", { useNewUrlParser:true }, function(err){
-    if(err){
-        console.log("can't connet to database " + err)
-        return;
-    }
-    console.log("connection locally");
-}).catch()
+
+const uri = "mongodb+srv://pearl:tryingatlas@cluster0-7b9rt.mongodb.net/test?retryWrites=true";
+mongoose.connect(uri, { useNewUrlParser: true })
+.then(() => {
+    console.log('Successfully connected')
+})
+.catch((err) => {
+    console.log(`Couldn't connect ${err}`)
+})
+
+// mongoose.connect("mongodb://localhost/recipe", { useNewUrlParser:true }, function(err){
+//     if(err){
+//         console.log("can't connet to database " + err)
+//         return;
+//     }
+//     console.log("connection locally");
+// }).catch()
 
 
 app.use((req, res, next) => {
@@ -48,11 +40,11 @@ app.use((req, res, next) => {
 //post route for recipes
 app.post('/api/recipes', (req, res) => {
     const recipe = new Recipe({
-        title: req.body.title,
-        ingredients: req.body.ingredients,
-        instructions: req.body.instructions,
-        difficulty: req.body.difficulty,
-        time: req.body.time
+        title: 'rice',
+        ingredients: 'water, maggi, rice, pepper, onions',
+        instructions: 'put water on fire first, then add rice, and start cooking',
+        difficulty: 'not difficult',
+        time: '20'
     });
     recipe.save().then( () => {
         res.status(201).json({
